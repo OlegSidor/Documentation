@@ -26,7 +26,7 @@ my $Doc = Documentation->new($db, $admin, \%conf);
 sub doc_list {
 
   if ($FORM{add_form}) {
-    $html->tpl_show(_include('documentation_add', 'Doc'), {
+    $html->tpl_show(_include('documentation_add', 'Documentation'), {
       SUBMIT => $html->form_input('add', $lang{ADD}, { TYPE => 'submit' }),
       TITLE  => $lang{ADD}
     });
@@ -70,7 +70,7 @@ sub doc_list {
     }
     else {
       my $doc = $Doc->info($FORM{chg});
-      $html->tpl_show(_include('documentation_add', 'Doc'), {
+      $html->tpl_show(_include('documentation_add', 'Documentation'), {
         WIKI       => $doc->{WIKI},
         CONFLUENCE => $doc->{CONFLUENCE},
         SUBMIT     => $html->form_input('change', $lang{CHANGE}, { TYPE => 'submit' }),
@@ -99,7 +99,7 @@ sub doc_list {
     },
     MAKE_ROWS       => 1,
     SEARCH_FORMER   => 1,
-    MODULE          => 'Doc',
+    MODULE          => 'Documentation',
     TOTAL           => 1
   });
 
