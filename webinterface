@@ -1,0 +1,97 @@
+#!/usr/bin/perl
+=head1 NAME
+
+ Abills doc
+
+=cut
+
+use strict;
+use warnings;
+use Doc::db::Documentation;
+
+our ($db, $admin, %conf, %lang, $html);
+my $Doc = Documentation->new($db, $admin, \%conf);
+
+sub doc_list {
+
+  if ($FORM{add_form}) {
+    $html->tpl_show(_include('doc_add', 'Doc'), {
+      SUBMIT => $html->form_input('add', $lang{ADD}, { TYPE => 'submit' }),
+      TITLE  => $lang{ADD}
+    });
+  }
+
+  if ($FORM{add}) {
+    $Doc->add({
+      WIKI       => $FORM{WIKI},
+      CONFLUENCE => $FORM{CONFLUENCE}
+    });
+    if (!$Doc->{errno}) {
+      $html->message('info', $lang{SUCCESS});
+    }
+    else {
+      $html->message('err', $lang{ERROR}, $Doc->{errno} . " : " . $Doc->{errstr});
+    }
+  }
+
+  if ($FORM{del}) {
+    $Doc->del($FORM{del});
+    if (!$Doc->{errno}) {
+      $html->message('info', $lang{SUCCESS});
+    }
+    else {
+      $html->message('err', $lang{ERROR}, $Doc->{errno} . " : " . $Doc->{errstr});
+    }
+  }
+  if ($FORM{chg}) {
+    if ($FORM{change}) {
+      $Doc->change({
+        ID         => $FORM{chg},
+        WIKI       => $FORM{WIKI},
+        CONFLUENCE => $FORM{CONFLUENCE}
+      });
+      if (!$Doc->{errno}) {
+        $html->message('info', $lang{SUCCESS});
+      }
+      else {
+        $html->message('err', $lang{ERROR}, $Doc->{errno} . " : " . $Doc->{errstr});
+      }
+    }
+    else {
+      my $doc = $Doc->info($FORM{chg});
+      $html->tpl_show(_include('doc_add', 'Doc'), {
+        WIKI       => $doc->{WIKI},
+        CONFLUENCE => $doc->{CONFLUENCE},
+        SUBMIT     => $html->form_input('change', $lang{CHANGE}, { TYPE => 'submit' }),
+        TITLE      => $lang{CHANGE},
+        ID         => $html->form_input('chg', $FORM{chg}, { TYPE => 'hidden' }),
+      });
+    }
+  }
+
+  result_former({
+    INPUT_DATA      => $Doc,
+    FUNCTION        => 'list',
+    BASE_FIELDS     => 0,
+    DEFAULT_FIELDS  => 'WIKI,CONFLUENCE',
+    FUNCTION_FIELDS => 'del, change',
+    EXT_TITLES      => {
+      'WIKI'       => 'WIKI',
+      'CONFLUENCE' => 'CONFLUENCE',
+    },
+    TABLE           => {
+      width   => '100%',
+      caption => "Doc",
+      qs      => $pages_qs,
+      ID      => 'Doc_list',
+      MENU    => "Add url:index=" . $index . '&add_form=1:add'
+    },
+    MAKE_ROWS       => 1,
+    SEARCH_FORMER   => 1,
+    MODULE          => 'Doc',
+    TOTAL           => 1
+  });
+
+  return 1;
+}
+1;

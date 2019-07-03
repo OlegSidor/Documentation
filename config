@@ -1,0 +1,3 @@
+%FUNCTIONS_LIST = (
+  '01:0:Doc:doc_list'              => '5',
+);
