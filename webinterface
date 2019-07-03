@@ -12,6 +12,17 @@ use Doc::db::Documentation;
 our ($db, $admin, %conf, %lang, $html);
 my $Doc = Documentation->new($db, $admin, \%conf);
 
+
+#**********************************************************
+=head2 doc_list() - main function
+  show list of documentation links,
+  can add, change, remove it
+
+  Returns:
+  1
+
+=cut
+#**********************************************************
 sub doc_list {
 
   if ($FORM{add_form}) {
@@ -94,4 +105,5 @@ sub doc_list {
 
   return 1;
 }
+
 1;

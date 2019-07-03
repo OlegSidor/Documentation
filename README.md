@@ -1,4 +1,4 @@
-# AbillsDoc
+# Documentation
 
 mysql -D abills < Documentation.sql
 
