@@ -4,4 +4,3 @@ CREATE TABLE IF NOT EXISTS `documentation` (
   `confluence` VARCHAR(255) NOT NULL
 )
   DEFAULT CHARSET = utf8;
-  COMMENT = 'Wiki to confluence url'
