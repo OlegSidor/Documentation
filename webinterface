@@ -7,7 +7,7 @@
 
 use strict;
 use warnings;
-use Doc::db::Documentation;
+use Documentation::db::Documentation;
 
 our ($db, $admin, %conf, %lang, $html);
 my $Doc = Documentation->new($db, $admin, \%conf);

@@ -46,7 +46,7 @@ my $db = Abills::SQL->connect($conf{dbtype}, $conf{dbhost}, $conf{dbname}, $conf
 
 print $html->header();
 if ($FORM{url}) {
-  use Doc::db::Documentation;
+  use Documentation::db::Documentation;
   my $Doc = Documentation->new($db, undef, \%conf);
   my $url = $Doc->list({
     WIKI       => $FORM{url},
